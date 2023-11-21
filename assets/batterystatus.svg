@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="83.088" height="122.632" viewBox="0 0 83.088 122.632">
+  <g id="Group_13487" data-name="Group 13487" transform="translate(-67.5 -445.706)">
+    <path id="battery-low-svgrepo-com" d="M121.632,52.135V38.953M24.09,85.088H93.951c7.382,0,11.074,0,13.893-1.437a13.179,13.179,0,0,0,5.76-5.76c1.437-2.819,1.437-6.511,1.437-13.893V27.09c0-7.382,0-11.073-1.437-13.893a13.18,13.18,0,0,0-5.76-5.76C105.025,6,101.333,6,93.951,6H24.09C16.708,6,13.017,6,10.2,7.437a13.18,13.18,0,0,0-5.76,5.76C3,16.017,3,19.708,3,27.09V64C3,71.38,3,75.071,4.437,77.891a13.18,13.18,0,0,0,5.76,5.76C13.017,85.088,16.708,85.088,24.09,85.088Z" transform="translate(63.5 569.338) rotate(-90)" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"/>
+    <rect id="Rectangle_17514" data-name="Rectangle 17514" width="69" height="71" rx="12" transform="translate(75 490)" fill="#74b960"/>
+    <text id="_67_" data-name="67%" transform="translate(92.544 541.648)" fill="#fff" font-size="16" font-family="SegoeUI-Bold, Segoe UI" font-weight="700"><tspan x="0" y="0">67%</tspan></text>
+    <g id="electric-svgrepo-com" transform="translate(-27.904 503.352)">
+      <path id="Path_21713" data-name="Path 21713" d="M140.949,0l-9.168,12.068h3.843L132.469,21.3l9.646-12h-3.989Z" fill="#fff"/>
+    </g>
+  </g>
+</svg>

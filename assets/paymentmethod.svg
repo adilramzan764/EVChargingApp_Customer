@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="12" viewBox="0 0 16 12">
+  <g id="debit-card-svgrepo-com" transform="translate(-2 -4)">
+    <rect id="primary" width="16" height="12" rx="2" transform="translate(2 4)" fill="#7da4ef"/>
+    <path id="secondary" d="M14.41,14.98H12.858a.776.776,0,1,1,0-1.551H14.41a.776.776,0,1,1,0,1.551ZM8.98,14.2a.776.776,0,0,0-.776-.776H5.1a.776.776,0,1,0,0,1.551H8.2A.776.776,0,0,0,8.98,14.2ZM17.512,8H2V9.551H17.512Z" transform="translate(0 -0.898)" fill="#f9f9f9"/>
+  </g>
+</svg>
