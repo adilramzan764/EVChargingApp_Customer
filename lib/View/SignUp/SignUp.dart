@@ -1,15 +1,28 @@
+import 'package:evchargingapp/Models/SignUp_Model.dart';
 import 'package:evchargingapp/View/SignUp/OTPScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 
+import '../../Models/UserModel.dart';
 import '../../Utils/colors.dart';
+import '../../ViewModel/Signup_ViewModel.dart';
 import '../../Widgets/CustomButton.dart';
 import '../../Widgets/CustomTextField.dart';
 import '../../Widgets/CustomWidgets.dart';
+import '../../Widgets/SnackBarManager.dart';
 
 class SignUp extends StatelessWidget {
-  const SignUp({Key? key}) : super(key: key);
+   SignUp({Key? key}) : super(key: key);
+  final SignUp_ViewModel userViewModel = Get.put(SignUp_ViewModel());
+TextEditingController firstname=TextEditingController();
+   TextEditingController lastname=TextEditingController();
+   TextEditingController phone=TextEditingController();
+   TextEditingController email=TextEditingController();
+   TextEditingController password=TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +57,7 @@ class SignUp extends StatelessWidget {
                           padding: const EdgeInsets.symmetric(horizontal: 20.0),
                           child: CustomTextField(icon: Transform.scale(
                               scale: 0.4,
-                              child: SvgPicture.asset('assets/profile.svg',)), hinttext: 'First name',),
+                              child: SvgPicture.asset('assets/profile.svg',)), hinttext: 'First name', controller: firstname,),
                         ),
                         SizedBox(height: MediaQuery.of(context).size.height*0.025,),
                     
@@ -52,7 +65,7 @@ class SignUp extends StatelessWidget {
                           padding: const EdgeInsets.symmetric(horizontal: 20.0),
                           child: CustomTextField(icon: Transform.scale(
                               scale: 0.4,
-                              child: SvgPicture.asset('assets/profile.svg',)), hinttext: 'Last name',),
+                              child: SvgPicture.asset('assets/profile.svg',)), hinttext: 'Last name', controller: lastname,),
                         ),
                         SizedBox(height: MediaQuery.of(context).size.height*0.025,),
                     
@@ -60,7 +73,7 @@ class SignUp extends StatelessWidget {
                           padding: const EdgeInsets.symmetric(horizontal: 20.0),
                           child: CustomTextField(icon: Transform.scale(
                               scale: 0.4,
-                              child: SvgPicture.asset('assets/call.svg',)), hinttext: 'Phone number',),
+                              child: SvgPicture.asset('assets/call.svg',)), hinttext: 'Phone number', controller: phone,),
                         ),
                         SizedBox(height: MediaQuery.of(context).size.height*0.025,),
                     
@@ -68,7 +81,7 @@ class SignUp extends StatelessWidget {
                           padding: const EdgeInsets.symmetric(horizontal: 20.0),
                           child: CustomTextField(icon: Transform.scale(
                               scale: 0.4,
-                              child: SvgPicture.asset('assets/emial.svg',)), hinttext: 'Email',),
+                              child: SvgPicture.asset('assets/emial.svg',)), hinttext: 'Email', controller: email,),
                         ),
                         SizedBox(height: MediaQuery.of(context).size.height*0.025,),
                     
@@ -76,7 +89,7 @@ class SignUp extends StatelessWidget {
                           padding: const EdgeInsets.symmetric(horizontal: 20.0),
                           child: CustomTextField(icon: Transform.scale(
                               scale: 0.4,
-                              child: SvgPicture.asset('assets/Lock.svg',)), hinttext: 'Password',),
+                              child: SvgPicture.asset('assets/Lock.svg',)), hinttext: 'Password', controller: password,),
                         ),
                     
                     
@@ -84,13 +97,46 @@ class SignUp extends StatelessWidget {
                         Container(
                           height: 32,
                           width: 140,
-                          child: CustomButton(text: 'Sign Up', onPressed: (){
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => OTPScreen(), // Replace with your next screen widget.
-                              ),
-                            );
+                          child: CustomButton(text: 'Sign Up', onPressed: () async {
+
+                            try {
+                              // Show loading indicator
+                              await EasyLoading.show(
+                                status: 'Signing Up...',
+                                maskType: EasyLoadingMaskType.black,
+                              );
+
+                              UserModel newUser = UserModel(
+                                firstname: firstname.text,
+                                lastname: lastname.text,
+                                email: email.text,
+                                password: password.text,
+                                phone: phone.text,
+                              );
+
+                               userViewModel.createUser(newUser, context);
+
+                              // Dismiss the loading indicator
+                              await EasyLoading.dismiss();
+
+                            } catch (error) {
+                              // Dismiss the loading indicator in case of an error
+                              await EasyLoading.dismiss();
+
+                              print('Sign Up Error: $error');
+                              SnackbarManager.showSnackbar(
+                                title: 'Error!',
+                                message: 'An error occurred',
+                                context: context,
+                              );
+                            }
+
+
+
+
+
+
+
                           }),
                         ),
                         SizedBox(height: MediaQuery.of(context).size.height*0.02,),

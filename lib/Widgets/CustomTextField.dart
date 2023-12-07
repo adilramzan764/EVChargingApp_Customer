@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 class CustomTextField extends StatelessWidget {
   Widget? icon; // Make the icon parameter optional
   String hinttext;
+  final TextEditingController controller; // Specify the type for the controller
 
-  CustomTextField({Key? key, this.icon, required this.hinttext})
+  CustomTextField({Key? key, this.icon, required this.hinttext, required this.controller})
       : super(key: key);
 
   @override
@@ -24,6 +25,7 @@ class CustomTextField extends StatelessWidget {
         ],
       ),
       child: TextFormField(
+        controller: controller,
         decoration: InputDecoration(
           prefixIcon: icon,
           hintText: hinttext,

@@ -11,9 +11,12 @@ import '../../Widgets/CustomButton.dart';
 import '../../Widgets/CustomWidgets.dart';
 
 class SignIn extends StatelessWidget {
-  const SignIn({Key? key}) : super(key: key);
+   SignIn({Key? key}) : super(key: key);
 
-  @override
+   TextEditingController email=TextEditingController();
+   TextEditingController password=TextEditingController();
+
+   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body:SingleChildScrollView(
@@ -45,7 +48,7 @@ class SignIn extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(horizontal: 20.0),
                         child: CustomTextField(icon: Transform.scale(
                             scale: 0.4,
-                            child: SvgPicture.asset('assets/emial.svg',)), hinttext: 'Email or Phone Number',),
+                            child: SvgPicture.asset('assets/emial.svg',)), hinttext: 'Email or Phone Number', controller: email,),
                       ),
                       SizedBox(height: MediaQuery.of(context).size.height*0.025,),
 
@@ -53,7 +56,7 @@ class SignIn extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(horizontal: 20.0),
                         child: CustomTextField(icon: Transform.scale(
                             scale: 0.4,
-                            child: SvgPicture.asset('assets/Lock.svg',)), hinttext: '********',),
+                            child: SvgPicture.asset('assets/Lock.svg',)), hinttext: '********', controller: password,),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(right: 25.0,top: 4),

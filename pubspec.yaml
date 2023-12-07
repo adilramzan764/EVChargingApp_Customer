@@ -46,6 +46,10 @@ dependencies:
   table_calendar:
   intl:
   dotted_line:
+  http:
+  get:
+  flutter_easyloading:
+
 
 
 

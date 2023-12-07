@@ -1,10 +1,12 @@
-import 'package:evchargingapp/View/BottomNavigationBar/MyBottomNavigationBar.dart';
-import 'package:evchargingapp/Widgets/CustomWidgets.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../../Widgets/CustomButton.dart';
+import '../../Widgets/CustomWidgets.dart';
+import '../BottomNavigationBar/MyBottomNavigationBar.dart';
+
 
 class PaymentMethodProcess extends StatefulWidget {
   const PaymentMethodProcess({Key? key}) : super(key: key);

@@ -7,7 +7,8 @@ import '../../Widgets/CustomButton.dart';
 import '../../Widgets/CustomTextField.dart';
 
 class ForgetPassword extends StatelessWidget {
-  const ForgetPassword({Key? key}) : super(key: key);
+   ForgetPassword({Key? key}) : super(key: key);
+   TextEditingController email=TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +63,7 @@ class ForgetPassword extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 20.0),
             child: CustomTextField(icon: Transform.scale(
                 scale: 0.4,
-                child: SvgPicture.asset('assets/emial.svg',)), hinttext: 'Email',),
+                child: SvgPicture.asset('assets/emial.svg',)), hinttext: 'Email', controller: email,),
           ),
           SizedBox(height: MediaQuery.of(context).size.height*0.05,),
 

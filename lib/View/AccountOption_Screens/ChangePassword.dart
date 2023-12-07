@@ -7,9 +7,13 @@ import '../../Widgets/CustomButton.dart';
 import '../../Widgets/CustomWidgets.dart';
 
 class ChangePassword extends StatelessWidget {
-  const ChangePassword({Key? key}) : super(key: key);
+   ChangePassword({Key? key}) : super(key: key);
 
-  @override
+   TextEditingController newpassword=TextEditingController();
+
+   TextEditingController confirmpassword=TextEditingController();
+
+   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
@@ -62,14 +66,14 @@ class ChangePassword extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 15.0),
             child: CustomTextField(icon: Transform.scale
               (scale: 0.5,
-                child: SvgPicture.asset('assets/Lock.svg')),hinttext: 'New Password'),
+                child: SvgPicture.asset('assets/Lock.svg')),hinttext: 'New Password', controller: newpassword,),
           ),
 SizedBox(height: 20,),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15.0),
             child: CustomTextField(icon: Transform.scale
               (scale: 0.5,
-                child: SvgPicture.asset('assets/Lock.svg')),hinttext: 'Confirm Password'),
+                child: SvgPicture.asset('assets/Lock.svg')),hinttext: 'Confirm Password', controller: confirmpassword,),
           ),
           SizedBox(height: MediaQuery.of(context).size.height*0.05,),
 

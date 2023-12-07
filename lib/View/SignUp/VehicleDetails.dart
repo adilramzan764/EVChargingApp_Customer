@@ -35,6 +35,11 @@ class _VehicleDetailsState extends State<VehicleDetails> {
 
    ];
   int selectedBrandIndex = 0; // Initialize with -1 to indicate no selection
+  TextEditingController model=TextEditingController();
+  TextEditingController trim=TextEditingController();
+  TextEditingController batterycapacity=TextEditingController();
+  TextEditingController firstname=TextEditingController();
+
 
   @override
   Widget build(BuildContext context) {
@@ -100,7 +105,7 @@ class _VehicleDetailsState extends State<VehicleDetails> {
             ),
             SizedBox(height: MediaQuery.of(context).size.height*0.01,),
 
-            CustomTextField( hinttext: "Model X"),
+            CustomTextField( hinttext: "Model X", controller: model,),
 
             SizedBox(height: MediaQuery.of(context).size.height*0.01,),
 
@@ -111,7 +116,7 @@ class _VehicleDetailsState extends State<VehicleDetails> {
             ),
             SizedBox(height: MediaQuery.of(context).size.height*0.01,),
 
-            CustomTextField( hinttext: "40 w supercharger"),
+            CustomTextField( hinttext: "40 w supercharger", controller: trim,),
 
             SizedBox(height: MediaQuery.of(context).size.height*0.01,),
 
@@ -122,7 +127,7 @@ class _VehicleDetailsState extends State<VehicleDetails> {
             ),
             SizedBox(height: MediaQuery.of(context).size.height*0.01,),
 
-            CustomTextField( hinttext: "600 HP"),
+            CustomTextField( hinttext: "600 HP", controller: batterycapacity,),
             SizedBox(height: MediaQuery.of(context).size.height*0.05,),
 
             Container(

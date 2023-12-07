@@ -129,31 +129,7 @@ class PaymentMethods extends StatelessWidget {
         SizedBox(
           height: MediaQuery.of(context).size.height * 0.1,
         ),
-        InkWell(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => PaymentMethodProcess(), // Replace with your next screen widget.
-                ),
-              );
-            },
-            child: Container(
-              height: 40,
-              width: MediaQuery.of(context).size.width * 0.6,
-              decoration: BoxDecoration(
-                  color: ColorValues.lightblue,
-                  borderRadius: BorderRadius.circular(20)),
-              child: Center(
-                  child: Text(
-                '+ Add New Payment Method',
-                style: TextStyle(
-                    color: ColorValues.primaryblue,
-                    fontSize: 12,
-                    fontWeight: FontWeight.bold),
-              )),
-            )),
-      ]),
+       ]),
     );
   }
 }
