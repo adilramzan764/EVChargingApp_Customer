@@ -21,7 +21,7 @@ class SignUpApi {
           'phone': signUp_Model.savedUser?.phone,
         }),
       );
-
+print(response.statusCode);
       if (response.statusCode == 200) {
         final jsonData = json.decode(response.body) as Map<String, dynamic>;
         print('User Created api');

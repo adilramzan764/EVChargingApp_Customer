@@ -9,6 +9,7 @@ import 'package:get/get_core/src/get_main.dart';
 
 import '../../Models/UserModel.dart';
 import '../../Utils/colors.dart';
+import '../../ViewModel/SendCode_VieModel.dart';
 import '../../ViewModel/Signup_ViewModel.dart';
 import '../../Widgets/CustomButton.dart';
 import '../../Widgets/CustomTextField.dart';
@@ -24,7 +25,10 @@ TextEditingController firstname=TextEditingController();
    TextEditingController email=TextEditingController();
    TextEditingController password=TextEditingController();
 
-  @override
+
+   final SendCode_ViewModel _controller = Get.put(SendCode_ViewModel());
+
+   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
@@ -101,20 +105,24 @@ TextEditingController firstname=TextEditingController();
 
                             try {
                               // Show loading indicator
-                              await EasyLoading.show(
-                                status: 'Signing Up...',
-                                maskType: EasyLoadingMaskType.black,
-                              );
+                              // await EasyLoading.show(
+                              //   status: 'Signing Up...',
+                              //   maskType: EasyLoadingMaskType.black,
+                              // );
 
                               UserModel newUser = UserModel(
-                                firstname: firstname.text,
-                                lastname: lastname.text,
-                                email: email.text,
-                                password: password.text,
-                                phone: phone.text,
+                                firstname: 'AR',
+                                lastname: 'Ramzan',
+                                email: 'adilraz@gmail.com',
+                                password: '11111111',
+                                phone: '1234455',
                               );
 
-                               userViewModel.createUser(newUser, context);
+                              _controller.email('adilramzan2002@gmail.com');
+                              // userViewModel.createUser(newUser, context);
+
+                              _controller.sendCode(context,newUser);
+
 
                               // Dismiss the loading indicator
                               await EasyLoading.dismiss();
