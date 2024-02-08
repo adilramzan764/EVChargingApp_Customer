@@ -284,15 +284,15 @@ Widget CircularImage(String pic, double height, double width) {
   );
 }
 
-Widget EditProfile_TextField(String icon, String hintext) {
+Widget EditProfile_TextField(String icon, String hintext,TextEditingController controller) {
   return Padding(
     padding: const EdgeInsets.symmetric(horizontal: 15.0),
     child: TextField(
-      // controller: _textEditingController,
+      controller: controller,
       decoration: InputDecoration(
         prefixIcon: Transform.scale(scale: 0.3, child: SvgPicture.asset(icon)),
         hintText: hintext,
-        hintStyle: TextStyle(color: Colors.grey.withOpacity(0.5), fontSize: 13),
+        hintStyle: TextStyle(color: Colors.black, fontSize: 14,fontWeight: FontWeight.w400),
         // Hint text color
         enabledBorder: UnderlineInputBorder(
           borderSide: BorderSide(
@@ -300,13 +300,12 @@ Widget EditProfile_TextField(String icon, String hintext) {
         ),
         focusedBorder: UnderlineInputBorder(
           borderSide:
-              BorderSide(color: ColorValues.primaryblue), // Underline color
+          BorderSide(color: ColorValues.primaryblue), // Underline color
         ),
       ),
     ),
   );
 }
-
 Widget Topup_Button(String text, VoidCallback onpressed) {
   return InkWell(
     onTap: onpressed,

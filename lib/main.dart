@@ -24,7 +24,7 @@ void configLoading() {
     ..textColor = Colors.yellow
     ..maskColor = Colors.blue.withOpacity(0.5)
     ..userInteractions = true
-    ..dismissOnTap = true;
+    ..dismissOnTap = false;
 }
 
 class MyApp extends StatelessWidget {

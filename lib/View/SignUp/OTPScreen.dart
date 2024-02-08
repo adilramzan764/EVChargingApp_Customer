@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
-import '../../Models/UserModel.dart';
+import '../../Models/BuyerModel.dart';
 import '../../ViewModel/Signup_ViewModel.dart';
 import '../../Widgets/CustomButton.dart';
 import '../../Widgets/CustomWidgets.dart';
@@ -14,7 +14,7 @@ import '../../Widgets/SnackBarManager.dart';
 
 class OTPScreen extends StatelessWidget {
    int? otp;
-   UserModel? newuser;
+   Buyer? newuser;
    OTPScreen({Key? key, this.otp,this.newuser}) : super(key: key);
   TextEditingController _otpController = TextEditingController();
    final SignUp_ViewModel userViewModel = Get.put(SignUp_ViewModel());

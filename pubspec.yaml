@@ -49,6 +49,19 @@ dependencies:
   http:
   get:
   flutter_easyloading:
+  google_maps_flutter:
+  location:
+  flutter_polyline_points:
+  geocoding:
+  google_maps_webservice:
+  shared_preferences:
+  image_picker:
+  file_picker:
+  image:
+  socket_io_client:
+
+
+
 
 
 

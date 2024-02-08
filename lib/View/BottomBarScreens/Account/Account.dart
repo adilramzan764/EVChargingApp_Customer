@@ -6,9 +6,12 @@ import 'package:evchargingapp/View/SignIn/SignIn.dart';
 import 'package:evchargingapp/Widgets/CustomWidgets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../Utils/colors.dart';
+import '../../../ViewModel/UserViewModel.dart';
 import '../../AccountOption_Screens/HelpandFAQs.dart';
 import '../../AccountOption_Screens/PaymentMethods.dart';
 import '../../AccountOption_Screens/PrivacyPolicy.dart';
@@ -42,6 +45,32 @@ class _AccountState extends State<Account> {
     'Language',
     'Help and FAQs',
   ];
+  UserViewModel userViewModel = SignIn.userViewModelMain;
+
+  // void clearMarkers() {
+  //   setState(() {
+  //     markers.clear();
+  //   });
+  // }
+  //
+  // void stopLocationService() {
+  //   _locationController.stop();
+  // }
+  //
+  // void turnOffMapServices() {
+  //   // Clear markers on the map
+  //   clearMarkers();
+  //
+  //   // Stop location updates
+  //   stopLocationService();
+  // }
+
+  Future<void> _clearLoggedIn() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.remove('isLoggedIn');
+    await prefs.remove('id');
+  }
+
 
   bool switchValue = false;
 
@@ -83,7 +112,22 @@ class _AccountState extends State<Account> {
                   padding: const EdgeInsets.only(left: 10.0),
                   child: Row(
                     children: [
-                      CircularImage('assets/model.jpg', 70, 70),
+                      if (userViewModel.userExists.value.profileImage != null)
+                        Container(
+                          height: 80,
+                          width: 80,
+                          decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              image: DecorationImage(
+                                  image: NetworkImage(
+                                    userViewModel.userExists.value.profileImage!,
+                                  ),
+                                  fit: BoxFit.cover)
+
+                          ),
+                        )
+                      else
+                      CircularImage('assets/blank-profile-picture.jpg', 70, 70),
                       SizedBox(
                         width: 10,
                       ),
@@ -91,14 +135,16 @@ class _AccountState extends State<Account> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Hamza Abbasi',
+                            userViewModel.userExists.value.firstName +" "+ userViewModel.userExists.value.lastName,
+
+                            // 'Hamza Abbasi',
                             style: TextStyle(color: Colors.black, fontSize: 13),
                           ),
                           SizedBox(
                             height: 5,
                           ),
                           Text(
-                            '+1 (339) 215-9749',
+                            userViewModel.userExists.value.phone,
                             style: TextStyle(
                                 color: Colors.grey.withOpacity(0.7),
                                 fontSize: 10),
@@ -248,12 +294,22 @@ class _AccountState extends State<Account> {
                   height: 20,
                 ),
                 InkWell(
-                  onTap: () {
+                  onTap: () async {
+                    EasyLoading.show(
+                      status: 'Signing Out...',
+                      maskType: EasyLoadingMaskType.black,
+                    );
+                    await Future.delayed(Duration(seconds: 3));
+
+                    _clearLoggedIn();
                     Navigator.pushAndRemoveUntil(
                       context,
-                      MaterialPageRoute(builder: (context) => SignIn()),
-                      (route) => false,
+                      MaterialPageRoute(
+                        builder: (context) => SignIn(),
+                      ),
+                          (route) => false,
                     );
+                    EasyLoading.dismiss();
                   },
                   child: Container(
                     height: MediaQuery.of(context).size.height * 0.05,

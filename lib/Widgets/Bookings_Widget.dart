@@ -7,6 +7,7 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import '../Utils/colors.dart';
 import '../View/GetDirections/Navigation.dart';
 import '../View/ViewStationDetails/ViewStationDetails.dart';
+import '../ViewModel/ChargingStations_ViewModel.dart';
 import 'CustomButton.dart';
 
 class Bookings_Widget extends StatefulWidget {
@@ -24,6 +25,8 @@ class _Bookings_WidgetState extends State<Bookings_Widget> {
   bool isavailable = true;
 
    bool switchValue = false;
+  final ChargingStationViewModel chargingStationViewModel =
+  ChargingStationViewModel();
 
    @override
   Widget build(BuildContext context) {
@@ -131,15 +134,23 @@ class _Bookings_WidgetState extends State<Bookings_Widget> {
             ),
             Row(
               children: [
-                Container(
-                  height: 70,
-                  width: 70,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15),
-                      image: DecorationImage(
-                          image:  AssetImage(
-                              isavailable ? 'assets/st.jpg' : 'assets/st2.jpg'),
-                          fit: BoxFit.cover)),
+                GestureDetector(
+                  onTap: (){
+                    print("pressed");
+                    chargingStationViewModel.getChargingStationData();
+                    // if(chargingStationViewModel.chargingStations.isNotEmpty)
+                    // print("Stations in model "+ chargingStationViewModel.chargingStations[0].id);
+                  },
+                  child: Container(
+                    height: 70,
+                    width: 70,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                        image: DecorationImage(
+                            image:  AssetImage(
+                                isavailable ? 'assets/st.jpg' : 'assets/st2.jpg'),
+                            fit: BoxFit.cover)),
+                  ),
                 ),
                 SizedBox(
                   width: 8,

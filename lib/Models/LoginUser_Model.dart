@@ -1,22 +1,20 @@
-import 'package:evchargingapp/Models/BuyerModel.dart';
 
 
-class SignUp_Model {
+class LogIn_Model {
   final String? message;
-  final Buyer? savedUser;
+  final String? id;
 
   final String? error;
 
-  SignUp_Model({this.message, this.error,this.savedUser});
 
+  LogIn_Model({this.message,this.error,this.id});
 
-
-  factory SignUp_Model.fromJson(Map<String, dynamic> json) {
-    return SignUp_Model(
+  factory LogIn_Model.fromJson(Map<String, dynamic> json) {
+    return LogIn_Model(
       message: json['message'],
-      error: json['error'],
-      savedUser: Buyer.fromJson(json['savedUser']),
+      id: json['id'],
 
+      error: json['error'],
 
 
     );
@@ -34,4 +32,5 @@ class SignUp_Model {
       throw Exception("UserResponse should have either 'message' or 'error'.");
     }
   }
+
 }

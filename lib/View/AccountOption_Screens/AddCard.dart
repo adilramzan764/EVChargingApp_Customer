@@ -16,6 +16,7 @@ class PaymentMethodProcess extends StatefulWidget {
 }
 
 class _PaymentMethodProcessState extends State<PaymentMethodProcess> {
+  TextEditingController cardholder =TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -79,19 +80,19 @@ class _PaymentMethodProcessState extends State<PaymentMethodProcess> {
                 ),
               ),
               // SizedBox(height: 10),
-EditProfile_TextField('assets/profile-grey.svg', 'Oguz Bulbul')   ,           SizedBox(height: 10),
+EditProfile_TextField('assets/profile-grey.svg', 'Oguz Bulbul',cardholder)   ,           SizedBox(height: 10),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10.0),
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
                     "Card Number",
-                    style: TextStyle(color: Color(0xff8F92A1),fontSize: 12),
+                    style: TextStyle(color: Color(0xff8F92A1),fontSize: 12)
                   ),
                 ),
               ),
               // SizedBox(height: 10),
-              EditProfile_TextField('assets/cardnumber.svg', '946953'),
+              EditProfile_TextField('assets/cardnumber.svg', '946953',cardholder),
               Row(
                 children: [
                   Expanded(
@@ -106,7 +107,7 @@ EditProfile_TextField('assets/profile-grey.svg', 'Oguz Bulbul')   ,           Si
                             style: TextStyle(color: Color(0xff8F92A1), fontSize: 12),
                           ),
                         ),
-                        EditProfile_TextField('assets/calender.svg', '28/09/2023'),
+                        EditProfile_TextField('assets/calender.svg', '28/09/2023',cardholder),
                       ],
                     ),
                   ),
@@ -121,7 +122,7 @@ EditProfile_TextField('assets/profile-grey.svg', 'Oguz Bulbul')   ,           Si
                           style: TextStyle(color: Color(0xff8F92A1),fontSize: 12),
                         ),
                         SizedBox(height: 10),
-                        EditProfile_TextField('assets/Lock.svg', '0 0 0'),
+                        EditProfile_TextField('assets/Lock.svg', '0 0 0',cardholder),
                       ],
                     ),
                   ),

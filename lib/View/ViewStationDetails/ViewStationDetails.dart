@@ -104,7 +104,7 @@ class _ViewStationDetailsState extends State<ViewStationDetails> {
                     ),
                   ],
                 ),
-                expandedHeight: MediaQuery.of(context).size.height * 0.62,
+                expandedHeight: MediaQuery.of(context).size.height * 0.64,
                 flexibleSpace: FlexibleSpaceBar(
                   background: Column(
                     children: [
@@ -114,7 +114,8 @@ class _ViewStationDetailsState extends State<ViewStationDetails> {
                             options: CarouselOptions(
                               height: 300.0,
                               enlargeCenterPage: true,
-                              autoPlay: false,
+                              autoPlay: true,
+                              autoPlayInterval: Duration(seconds: 2),
                               aspectRatio: 16 / 9,
                               autoPlayCurve: Curves.fastOutSlowIn,
                               enableInfiniteScroll: true,

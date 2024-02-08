@@ -6,28 +6,42 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
+import '../../ViewModel/ChargingStations_ViewModel.dart';
 import '../BottomBarScreens/Account/Account.dart';
 import '../BottomBarScreens/BattertStatus/BatteryStatus.dart';
 import '../BottomBarScreens/BookMarks.dart';
 import '../BottomBarScreens/Bookings/Bookings.dart';
 import '../BottomBarScreens/MapScreen.dart';
+import '../BottomBarScreens/MapScreen2.dart';
+import '../BottomBarScreens/MapScreen3.dart';
 
 class MyBottomNavigationBar extends StatefulWidget {
   @override
   _StackedBottomNavigationBarState createState() =>
       _StackedBottomNavigationBarState();
+
 }
 
 class _StackedBottomNavigationBarState extends State<MyBottomNavigationBar> {
   int _currentIndex = 0;
 
   final List<Widget> _screens = [
-    MapScreen(),
+    MapPage2(),
     BookMarks(),
     Bookings(),
     BatteryStatus(),
     Account()
   ];
+  //
+
+
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   // Call the method in the initState
+  //   MyBottomNavigationBar.chargingStationViewModel.getChargingStationData();
+  //   // print(chargingStationViewModel.chargingStations[0].toString());
+  // }
 
   @override
   Widget build(BuildContext context) {

@@ -7,7 +7,7 @@ import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 
 import '../ApiServices/SignUpApi.dart';
 import '../Models/SignUp_Model.dart';
-import '../Models/UserModel.dart';
+import '../Models/BuyerModel.dart';
 import '../View/SignUp/OTPScreen.dart';
 import '../Widgets/CustomWidgets.dart';
 import '../Widgets/SnackBarManager.dart';
@@ -19,7 +19,7 @@ class SignUp_ViewModel extends GetxController {
   final SendCode_ViewModel _controller = Get.put(SendCode_ViewModel());
 
 
-  Future<void> createUser(UserModel user, BuildContext context) async {
+  Future<void> createUser(Buyer user, BuildContext context) async {
     try {
       // await EasyLoading.show(
       //   status: 'Signing Up...',
@@ -27,7 +27,7 @@ class SignUp_ViewModel extends GetxController {
       // );
       SignUp_Model createdUser = await SignUpApi.createUser(
         SignUp_Model(
-          savedUser: UserModel(
+          savedUser: Buyer(
             firstname: user.firstname,
             lastname: user.lastname,
             email: user.email,

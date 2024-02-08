@@ -7,7 +7,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 
-import '../../Models/UserModel.dart';
+import '../../Models/BuyerModel.dart';
 import '../../Utils/colors.dart';
 import '../../ViewModel/SendCode_VieModel.dart';
 import '../../ViewModel/Signup_ViewModel.dart';
@@ -110,10 +110,10 @@ TextEditingController firstname=TextEditingController();
                               //   maskType: EasyLoadingMaskType.black,
                               // );
 
-                              UserModel newUser = UserModel(
+                              Buyer newUser = Buyer(
                                 firstname: 'AR',
                                 lastname: 'Ramzan',
-                                email: 'adilraz@gmail.com',
+                                email: 'arr2@gmail.com',
                                 password: '11111111',
                                 phone: '1234455',
                               );
@@ -125,7 +125,6 @@ TextEditingController firstname=TextEditingController();
 
 
                               // Dismiss the loading indicator
-                              await EasyLoading.dismiss();
 
                             } catch (error) {
                               // Dismiss the loading indicator in case of an error

@@ -1,6 +1,10 @@
+import 'package:evchargingapp/View/BottomNavigationBar/MyBottomNavigationBar.dart';
+import 'package:evchargingapp/View/SignIn/SignIn.dart';
 import 'package:evchargingapp/Widgets/StationDetails_Widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+import '../../ViewModel/ChargingStations_ViewModel.dart';
 
 class BookMarks extends StatelessWidget {
    BookMarks({Key? key}) : super(key: key);
@@ -9,6 +13,8 @@ final List<bool> isavailable=[
   false,
   true,
 ];
+    ChargingStationViewModel chargingStationViewModel =
+   SignIn.chargingStationViewModel;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,8 +49,11 @@ final List<bool> isavailable=[
               context: context,
               removeTop: true,
               child: ListView.builder(
-                itemCount: isavailable.length, // Number of items in your list
+                itemCount: chargingStationViewModel.chargingStations.length, // Number of items in your list
                 itemBuilder: (BuildContext context, int index) {
+                  var station = chargingStationViewModel.chargingStations[index];
+                  print("Station "+station.id);
+
                   // Return a widget for each item at the specified index
                   return Padding(
                     padding: const EdgeInsets.all(8.0),
