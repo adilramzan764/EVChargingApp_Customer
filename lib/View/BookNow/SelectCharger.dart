@@ -5,11 +5,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../../Models/ChargerModel.dart';
+import '../../Models/ChargingStation_Model.dart';
 import '../../Widgets/CustomButton.dart';
+import '../../Widgets/SnackBarManager.dart';
 import 'Booking.dart';
 
 class SelectCharger extends StatefulWidget {
-  const SelectCharger({Key? key}) : super(key: key);
+  List<Spot>? spots;
+  String? servicehours;
+
+  SelectCharger({Key? key, this.spots, this.servicehours}) : super(key: key);
 
   @override
   _SelectChargerState createState() => _SelectChargerState();
@@ -72,7 +77,10 @@ class _SelectChargerState extends State<SelectCharger> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     IconButton(
-                      icon: Icon(CupertinoIcons.left_chevron,size: 15,),
+                      icon: Icon(
+                        CupertinoIcons.left_chevron,
+                        size: 15,
+                      ),
                       onPressed: () {
                         Navigator.pop(context);
                       },
@@ -92,7 +100,7 @@ class _SelectChargerState extends State<SelectCharger> {
           ),
           SizedBox(height: 20),
           Container(
-            height: 110 *chargers.length.toDouble(),
+            height: 110 * chargers.length.toDouble(),
             child: Padding(
               padding: const EdgeInsets.only(top: 10.0),
               child: ListView.builder(
@@ -115,11 +123,14 @@ class _SelectChargerState extends State<SelectCharger> {
                         height: 90,
                         width: double.infinity,
                         decoration: BoxDecoration(
-                          color: isSelected ? ColorValues.lightblue : Colors.white,
+                          color:
+                              isSelected ? ColorValues.lightblue : Colors.white,
                           borderRadius: BorderRadius.circular(10),
                           boxShadow: [
                             BoxShadow(
-                              color:isSelected ? Colors.blue : Colors.grey.withOpacity(0.3),
+                              color: isSelected
+                                  ? Colors.blue
+                                  : Colors.grey.withOpacity(0.3),
                               spreadRadius: 1,
                               blurRadius: 1,
                             ),
@@ -132,15 +143,15 @@ class _SelectChargerState extends State<SelectCharger> {
                             children: [
                               Row(
                                 mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    charger.duration,
+                                    "${widget.servicehours} hours" ?? " ",
                                     style: TextStyle(
                                         color: Colors.grey, fontSize: 12),
                                   ),
                                   Text(
-                                    charger.availability,
+                                    widget.spots![index].status,
                                     style: TextStyle(
                                         color: Colors.green, fontSize: 12),
                                   ),
@@ -160,10 +171,10 @@ class _SelectChargerState extends State<SelectCharger> {
                                   ),
                                   Column(
                                     crossAxisAlignment:
-                                    CrossAxisAlignment.start,
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        charger.type,
+                                        widget.spots![index].spotName,
                                         style: TextStyle(
                                             color: Colors.black, fontSize: 12),
                                       ),
@@ -186,20 +197,54 @@ class _SelectChargerState extends State<SelectCharger> {
               ),
             ),
           ),
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.1,
+          ),
 
 
-          SizedBox(height: MediaQuery.of(context).size.height*0.1,),
           Container(
-              height: 32,
-              width: 140,
-              child: CustomButton(text: 'Continue', onPressed: (){
+            width: 140,
+            height: 32,
+            decoration: BoxDecoration(
+                borderRadius:  BorderRadius.circular(25),
+                border: Border.all(
+                  color:  Colors.transparent,
+                ),
+                color: selectedChargerIndex==-1 ? Colors.grey.shade300 : ColorValues.primaryblue
+            ),
+            child: ElevatedButton(
+              onPressed: (){
+                if(selectedChargerIndex==-1)
+                  SnackbarManager.showSnackbar(
+                    title: 'Action Required!',
+                    message: 'Please select any charger',
+                    context: context,
+                  );
+                else
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => Bookingslot(), // Replace with your next screen widget.
+                    builder: (context) =>
+                        Bookingslot(
+                          spotname: widget.spots![selectedChargerIndex].spotName,
+                        ), // Replace with your next screen widget.
                   ),
                 );
-              }))
+              },
+              style: ElevatedButton.styleFrom(
+                primary: Colors.transparent,
+                elevation: 0,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(25),
+                ),
+              ),
+              child:   Text(
+                "Continue",
+                style: TextStyle(color:   Colors.white ,fontSize: 14),
+              ),
+            ),
+          ),
+
         ],
       ),
     );

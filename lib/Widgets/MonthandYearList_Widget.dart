@@ -1,9 +1,10 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-
-
 class DropdownWidget extends StatefulWidget {
+  final Function(String, int) onSelectionChanged;
+
+  DropdownWidget({required this.onSelectionChanged});
+
   @override
   _DropdownWidgetState createState() => _DropdownWidgetState();
 }
@@ -24,8 +25,7 @@ class _DropdownWidgetState extends State<DropdownWidget> {
     'Dec'
   ];
 
-  final List<int> years =
-      List.generate(10, (index) => DateTime.now().year + index);
+  final List<int> years = List.generate(10, (index) => DateTime.now().year + index);
 
   String selectedMonth = 'Jan';
   int selectedYear = DateTime.now().year;
@@ -35,13 +35,6 @@ class _DropdownWidgetState extends State<DropdownWidget> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        // ElevatedButton(
-        //   onPressed: () {
-        //     // Your logic here when the button is pressed
-        //   },
-        //   child: Text('$selectedMonth $selectedYear'),
-        // ),
-        // SizedBox(height: 20),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -60,19 +53,18 @@ class _DropdownWidgetState extends State<DropdownWidget> {
               ),
               child: Center(
                 child: DropdownButton<String>(
-                  // isExpanded: false,
                   underline: Container(),
                   style: TextStyle(color: Colors.grey, fontSize: 12),
-                  // Remove underline
                   icon: Padding(
                     padding: const EdgeInsets.only(left: 5.0),
-                    child: Icon(CupertinoIcons.chevron_down),
+                    child: Icon(Icons.arrow_drop_down),
                   ),
                   iconSize: 12,
                   value: selectedMonth,
                   onChanged: (String? newValue) {
                     setState(() {
                       selectedMonth = newValue!;
+                      widget.onSelectionChanged(selectedMonth, selectedYear);
                     });
                   },
                   items: months.map<DropdownMenuItem<String>>((String value) {
@@ -103,16 +95,16 @@ class _DropdownWidgetState extends State<DropdownWidget> {
                 child: DropdownButton<int>(
                   underline: Container(),
                   style: TextStyle(color: Colors.grey, fontSize: 12),
-                  // Remove underline
                   icon: Padding(
                     padding: const EdgeInsets.only(left: 5.0),
-                    child: Icon(CupertinoIcons.chevron_down),
+                    child: Icon(Icons.arrow_drop_down),
                   ),
                   iconSize: 12,
                   value: selectedYear,
                   onChanged: (int? newValue) {
                     setState(() {
                       selectedYear = newValue!;
+                      widget.onSelectionChanged(selectedMonth, selectedYear);
                     });
                   },
                   items: years.map<DropdownMenuItem<int>>((int value) {

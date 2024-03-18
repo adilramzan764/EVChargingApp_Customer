@@ -5,8 +5,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../Models/ChargingStation_Model.dart';
+
 class BookNow_NavBar extends StatelessWidget {
-  const BookNow_NavBar({Key? key}) : super(key: key);
+  List<Spot> spots;
+  String servicehours;   BookNow_NavBar({Key? key,required this.spots,required this.servicehours}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +42,7 @@ class BookNow_NavBar extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => SelectCharger(), // Replace with your next screen widget.
+                      builder: (context) => SelectCharger(spots: spots, servicehours: servicehours,), // Replace with your next screen widget.
                     ),
                   );
                 }))

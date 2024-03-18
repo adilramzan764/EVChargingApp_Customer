@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
-import '../../ViewModel/ChargingStations_ViewModel.dart';
+import '../../ViewModel/ChargingStationsbyChargerType_ViewModel.dart';
 import '../BottomBarScreens/Account/Account.dart';
 import '../BottomBarScreens/BattertStatus/BatteryStatus.dart';
 import '../BottomBarScreens/BookMarks.dart';

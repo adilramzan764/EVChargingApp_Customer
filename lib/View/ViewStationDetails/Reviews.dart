@@ -1,45 +1,29 @@
 import 'package:evchargingapp/Models/ReviewData_Model.dart';
+import 'package:evchargingapp/ViewModel/Reviews_ViewModel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:rating_summary/rating_summary.dart';
 
 import '../../Widgets/Review_Widget.dart';
 
-class Reviews extends StatelessWidget {
-   Reviews({Key? key}) : super(key: key);
+class Reviews extends StatefulWidget {
+  String stationid;
 
-   final List<ReviewData_Model> reviews = [
-     ReviewData_Model(
-       profilePic: 'assets/model.jpg',
-       name: 'John Doe',
-       date: '2023-11-16',
-       stars: 4.5,
-       review: 'Great experience! Highly recommended.',
-     ),
-     ReviewData_Model(
-       profilePic: 'assets/model.jpg',
-       name: 'Jane Smith',
-       date: '2023-11-15',
-       stars: 3.0,
-       review: 'Could be better. Average service.',
-     ),
-     ReviewData_Model(
-       profilePic: 'assets/model.jpg',
-       name: 'Jane Smith',
-       date: '2023-11-15',
-       stars: 3.0,
-       review: 'Could be better. Average service.',
-     ),
-     ReviewData_Model(
-       profilePic: 'assets/model.jpg',
-       name: 'Jane Smith',
-       date: '2023-11-15',
-       stars: 3.0,
-       review: 'Could be better. Average service.',
-     ),
-     
-     // Add more reviews as needed
-   ];
+  Reviews({Key? key, required this.stationid}) : super(key: key);
+
+  @override
+  State<Reviews> createState() => _ReviewsState();
+}
+
+class _ReviewsState extends State<Reviews> {
+  ReviewViewModel reviewViewModel = ReviewViewModel();
+
+  @override
+  void initState() {
+    reviewViewModel.fetchReviews(widget.stationid);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,15 +42,15 @@ class Reviews extends StatelessWidget {
               Container(
                 padding: EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(15),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.3),
-                      blurRadius: 1,
-                      spreadRadius: 1
-                    )
-                  ]
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(15),
+                    boxShadow: [
+                      BoxShadow(
+                          color: Colors.grey.withOpacity(0.3),
+                          blurRadius: 1,
+                          spreadRadius: 1
+                      )
+                    ]
                 ),
                 child: Column(
                   children: [
@@ -96,7 +80,7 @@ class Reviews extends StatelessWidget {
                           ],
                         ),
                         SizedBox(height: 10),
-                        Text('273 Reviews', style: TextStyle(fontSize: 14, color: Colors.grey)),
+                        Text('${reviewViewModel.reviews.length} Reviews', style: TextStyle(fontSize: 14, color: Colors.grey)),
                         SizedBox(height: 10),
                         RatingSummary(
                           counter: 13,
@@ -124,27 +108,28 @@ class Reviews extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 20,),
-        
+
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text('Reviews', style: TextStyle(fontSize: 14)),
               ),
               SizedBox(height: 10,),
               Container(
-                height: 110*reviews.length.toDouble(),
+                height: 110*reviewViewModel.reviews.length.toDouble(),
                 width: double.infinity,
                 child: ListView.builder(
                   physics: NeverScrollableScrollPhysics(),
                   padding: EdgeInsets.zero,
-                  itemCount: reviews.length,
+                  itemCount: reviewViewModel.reviews.length,
                   itemBuilder: (context, index) {
                     return Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 5.0,vertical: 5),
-                      child: Review_Widget(review: reviews[index]),
+                      child: Review_Widget(review: reviewViewModel.reviews[index]),
                     );
                   },
                 ),
-              )            ],
+              )
+            ],
           ),
         ),
       ),

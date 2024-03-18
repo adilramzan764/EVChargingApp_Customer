@@ -1,26 +1,25 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import '../Utils/colors.dart';
 
 class MyTimeWidget extends StatefulWidget {
+  final Function(String, String, String) onTimeChanged;
+
+  MyTimeWidget({required this.onTimeChanged});
+
   @override
   _MyTimeWidgetState createState() => _MyTimeWidgetState();
 }
 
 class _MyTimeWidgetState extends State<MyTimeWidget> {
-  String selectAMPM = 'A.M';
-  final List<String> options = [
-    'A.M',
-    'P.M',
-  ];
+  String selectAMPM = 'AM';
+  final List<String> options = ['AM', 'PM'];
   double _sliderValue_hours = 3.0;
   int _discreteValue_hours = 3;
-
   double _sliderValue_minutes = 30.0;
   int _discreteValue_minutes = 30;
-  String hours = '12';
-  String minutes = '00';
+  String hours = '03';
+  String minutes = '30';
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +42,8 @@ class _MyTimeWidgetState extends State<MyTimeWidget> {
                 ],
               ),
               child: Center(
-                child: Text(_discreteValue_hours.toString(), style: TextStyle(fontSize: 16)),
+                child: Text(_discreteValue_hours.toString(),
+                    style: TextStyle(fontSize: 16)),
               ),
             ),
             SizedBox(width: 10),
@@ -63,7 +63,8 @@ class _MyTimeWidgetState extends State<MyTimeWidget> {
                 ],
               ),
               child: Center(
-                child: Text(_discreteValue_minutes.toString(), style: TextStyle(fontSize: 16)),
+                child: Text(_discreteValue_minutes.toString(),
+                    style: TextStyle(fontSize: 16)),
               ),
             ),
             SizedBox(width: 15),
@@ -82,16 +83,16 @@ class _MyTimeWidgetState extends State<MyTimeWidget> {
               ),
               child: Center(
                 child: DropdownButton<String>(
-                  // isExpanded: false,
                   underline: Container(),
                   style: TextStyle(color: Colors.black, fontSize: 12),
-                  // Remove underline
                   icon: Icon(CupertinoIcons.chevron_down, color: Colors.black),
                   iconSize: 12,
                   value: selectAMPM,
                   onChanged: (String? newValue) {
                     setState(() {
                       selectAMPM = newValue!;
+                      widget.onTimeChanged(
+                          hours, minutes, selectAMPM); // Callback function
                     });
                   },
                   items: options.map<DropdownMenuItem<String>>((String value) {
@@ -111,56 +112,60 @@ class _MyTimeWidgetState extends State<MyTimeWidget> {
             children: [
               Align(
                   alignment: Alignment.centerLeft,
-                  child: Text('Hours',
-                  style: TextStyle(color: Colors.black, fontSize: 13),
-
-                  )
-              ),
-              // SizedBox(height: 10),
+                  child: Text(
+                    'Hours',
+                    style: TextStyle(color: Colors.black, fontSize: 13),
+                  )),
               Slider(
                 value: _sliderValue_hours,
-                activeColor: ColorValues.primaryblue,
-                thumbColor: ColorValues.green,
+                activeColor: Colors.blue,
+                thumbColor: Colors.green,
                 onChanged: (value) {
                   setState(() {
                     _sliderValue_hours = value;
-                    _discreteValue_hours = value.round(); // Round to the nearest integer
-
+                    _discreteValue_hours =
+                        value.round(); // Round to the nearest integer
+                    hours = _discreteValue_hours.toString().padLeft(2, '0');
+                    widget.onTimeChanged(
+                        hours, minutes, selectAMPM); // Callback function
                   });
                 },
                 min: 1.0,
                 max: 12.0,
-                // divisions: 24, // Optional: Add divisions for discrete values
-                label: '$_discreteValue_hours', // Optional: Display a label on the slider thumb
+                label:
+                '$_discreteValue_hours', // Optional: Display a label on the slider thumb
               ),
-
               Align(
                   alignment: Alignment.centerLeft,
-                  child: Text('Minutes ',
+                  child: Text(
+                    'Minutes ',
                     style: TextStyle(color: Colors.black, fontSize: 13),
-
                   )),
               Slider(
                 value: _sliderValue_minutes,
-                activeColor: ColorValues.primaryblue,
-                thumbColor: ColorValues.green,
+                activeColor: Colors.blue,
+                thumbColor: Colors.green,
                 onChanged: (value) {
                   setState(() {
                     _sliderValue_minutes = value;
-                    _discreteValue_minutes = value.round(); // Round to the nearest integer
-
+                    _discreteValue_minutes =
+                        value.round(); // Round to the nearest integer
+                    minutes =
+                        _discreteValue_minutes.toString().padLeft(2, '0');
+                    widget.onTimeChanged(
+                        hours, minutes, selectAMPM); // Callback function
                   });
                 },
                 min: 1.0,
                 max: 60.0,
-                divisions: 60, // Optional: Add divisions for discrete values
-                label: '$_discreteValue_minutes', // Optional: Display a label on the slider thumb
+                divisions:
+                60, // Optional: Add divisions for discrete values
+                label:
+                '$_discreteValue_minutes', // Optional: Display a label on the slider thumb
               ),
             ],
           ),
         ),
-
-
       ],
     );
   }

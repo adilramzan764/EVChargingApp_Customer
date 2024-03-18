@@ -1,4 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:evchargingapp/Models/ReviewData_Model.dart';
 import 'package:evchargingapp/View/ViewStationDetails/Reviews.dart';
 import 'package:evchargingapp/Widgets/MyTabBar.dart';
 import 'package:flutter/cupertino.dart';
@@ -6,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../Utils/colors.dart';
+import '../../ViewModel/Station_ViewModel.dart';
 import '../../Widgets/CustomButton.dart';
 import '../../Widgets/CustomWidgets.dart';
 import '../BookNow_NavBar/BookNow_NavBar.dart';
@@ -14,26 +16,31 @@ import 'OverView_Tab.dart';
 
 class ViewStationDetails extends StatefulWidget {
   bool isavailable;
+  Station_ViewModel? station_viewModel;
 
-  ViewStationDetails({Key? key, required this.isavailable}) : super(key: key);
+
+  ViewStationDetails({Key? key, required this.isavailable,this.station_viewModel}) : super(key: key);
 
   @override
   State<ViewStationDetails> createState() => _ViewStationDetailsState();
 }
 
 class _ViewStationDetailsState extends State<ViewStationDetails> {
-  final List<String> images = [
-    'assets/startter2.png',
-    'assets/startter2.png',
-    'assets/starter1.png',
-  ];
+  // final List<String> images =
+  // [
+  //   'assets/startter2.png',
+  //   'assets/startter2.png',
+  //   'assets/starter1.png',
+  // ];
 
   int _currentIndex = 0;
 
   @override
   Widget build(BuildContext context) {
+    final List<String> images = widget.station_viewModel?.stations[0].stationImages ?? [];
+
     return Scaffold(
-      bottomNavigationBar: BookNow_NavBar(),
+      bottomNavigationBar: BookNow_NavBar(spots: widget.station_viewModel!.spots, servicehours: widget.station_viewModel!.stations[0].serviceHours,),
       backgroundColor: Colors.white,
       body: DefaultTabController(
         length: 3,
@@ -136,7 +143,7 @@ class _ViewStationDetailsState extends State<ViewStationDetails> {
                                     decoration: BoxDecoration(
                                       color: Colors.amber,
                                     ),
-                                    child: Image.asset(
+                                    child: Image.network(
                                       item,
                                       fit: BoxFit.cover,
                                     ),
@@ -239,7 +246,7 @@ class _ViewStationDetailsState extends State<ViewStationDetails> {
                                               fontSize: 10),
                                         ),
                                         Text(
-                                          '(30 Reviews)',
+                                          '(${widget.station_viewModel?.stations[0].reviews.length ?? ""} Reviews)',
                                           style: TextStyle(
                                               color:
                                                   Colors.grey.withOpacity(0.7),
@@ -253,7 +260,7 @@ class _ViewStationDetailsState extends State<ViewStationDetails> {
                                   crossAxisAlignment: CrossAxisAlignment.end,
                                   children: [
                                     Text(
-                                      '\$30',
+                                      '\$${widget.station_viewModel?.stations[0].perHourPrice?? " "}',
                                       style: TextStyle(
                                           fontSize: 17,
                                           color: ColorValues.primaryblue,
@@ -286,9 +293,12 @@ class _ViewStationDetailsState extends State<ViewStationDetails> {
                                   width:
                                       MediaQuery.of(context).size.width * 0.24,
                                   child: CustomButton(
-                                      text: widget.isavailable
-                                          ? 'Available'
-                                          : 'In Use',
+                                      text:
+                                      widget.station_viewModel?.spots[0].status ?? " ",
+
+                                      // widget.isavailable
+                                      //     ? 'Available'
+                                      //     : 'In Use',
                                       onPressed: () {}),
                                 ),
                                 SizedBox(
@@ -410,10 +420,10 @@ class _ViewStationDetailsState extends State<ViewStationDetails> {
               MediaQuery.removePadding(
                   context: context,
                   removeBottom: true,
-                  child: OverView_Screen()), // Content for Tab 2
+                  child: OverView_Screen(station_viewModel: widget.station_viewModel,)), // Content for Tab 2
               MediaQuery.removePadding(
-                  context: context, removeTop: true, child: Chargers_Tab()),
-              Reviews(),
+                  context: context, removeTop: true, child: Chargers_Tab(spots: widget.station_viewModel?.spots() ??[], servicehours: widget.station_viewModel?.stations[0].serviceHours ?? "",)),
+              Reviews(stationid:widget.station_viewModel?.stations[0].id ?? '' ,),
             ],
           ),
         ),

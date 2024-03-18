@@ -2,12 +2,14 @@ import 'package:evchargingapp/View/BookNow/SelectCharger.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../Utils/colors.dart';
 import '../View/GetDirections/Navigation.dart';
 import '../View/ViewStationDetails/ViewStationDetails.dart';
-import '../ViewModel/ChargingStations_ViewModel.dart';
+import '../ViewModel/ChargingStationsbyChargerType_ViewModel.dart';
 import 'CustomButton.dart';
 
 class Bookings_Widget extends StatefulWidget {
@@ -18,6 +20,7 @@ class Bookings_Widget extends StatefulWidget {
   Bookings_Widget({Key? key,required this.isupcoming, required this.iscompleted,required this.iscancelled}) : super(key: key);
 
   @override
+
   State<Bookings_Widget> createState() => _Bookings_WidgetState();
 }
 
@@ -25,6 +28,7 @@ class _Bookings_WidgetState extends State<Bookings_Widget> {
   bool isavailable = true;
 
    bool switchValue = false;
+
   final ChargingStationViewModel chargingStationViewModel =
   ChargingStationViewModel();
 
@@ -366,7 +370,8 @@ class _Bookings_WidgetState extends State<Bookings_Widget> {
                             ),
                           );
                       },
-                    ))
+                    )
+                )
               ],
             ),
             if(widget.iscancelled)

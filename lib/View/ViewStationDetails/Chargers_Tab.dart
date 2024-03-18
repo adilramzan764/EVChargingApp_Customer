@@ -3,15 +3,19 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../Models/ChargingStation_Model.dart';
+
 class Chargers_Tab extends StatelessWidget {
-  const Chargers_Tab({Key? key}) : super(key: key);
+  List<Spot> spots;
+  String servicehours;
+   Chargers_Tab({Key? key,required this.spots,required this.servicehours}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: 10.0),
       child: ListView.builder(
-        itemCount: 5, // Number of items in your list
+        itemCount: spots.length, // Number of items in your list
         itemBuilder: (BuildContext context, int index) {
           // Return a widget for each item at the specified index
           return Padding(
@@ -37,8 +41,8 @@ class Chargers_Tab extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('24 hours',style: TextStyle(color: Colors.grey,fontSize: 12),),
-                        Text('Available',style: TextStyle(color: ColorValues.green,fontSize: 12),),
+                        Text(servicehours+ " hours",style: TextStyle(color: Colors.grey,fontSize: 12),),
+                        Text(spots[index].status,style: TextStyle(color: ColorValues.green,fontSize: 12),),
 
                       ],
                     ),
@@ -51,7 +55,7 @@ class Chargers_Tab extends StatelessWidget {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('Ac -type 2',style: TextStyle(color: ColorValues.blackColor,fontSize: 12),),
+                            Text(spots[index].spotName,style: TextStyle(color: ColorValues.blackColor,fontSize: 12),),
                             Text('6.5kW',style: TextStyle(color: ColorValues.blackColor,fontSize: 12),),
 
                           ],

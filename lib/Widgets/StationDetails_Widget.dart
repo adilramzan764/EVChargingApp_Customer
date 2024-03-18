@@ -1,3 +1,4 @@
+import 'package:evchargingapp/Models/ChargingStation_Model.dart';
 import 'package:evchargingapp/Utils/colors.dart';
 import 'package:evchargingapp/View/BookNow/SelectCharger.dart';
 import 'package:evchargingapp/View/ViewStationDetails/ViewStationDetails.dart';
@@ -6,15 +7,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../View/GetDirections/Navigation.dart';
+import '../ViewModel/Station_ViewModel.dart';
 import 'CustomButton.dart';
 
 class StationDetails_Widget extends StatelessWidget {
   bool isavailable;
-   StationDetails_Widget({Key? key,required this.isavailable}) : super(key: key);
+  Station_ViewModel? station_viewModel;
+   StationDetails_Widget({Key? key,required this.isavailable,this.station_viewModel}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return
+    Container(
       height: MediaQuery.of(context).size.height * 0.35,
       width: double.infinity,
       decoration: BoxDecoration(
@@ -41,12 +45,15 @@ class StationDetails_Widget extends StatelessWidget {
                   height: 70,
                   width: 70,
                   decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15),
-                      image: DecorationImage(
-                          image:  AssetImage(
-                              isavailable ? 'assets/st.jpg' : 'assets/st2.jpg'),
-                          fit: BoxFit.cover)),
+                    borderRadius: BorderRadius.circular(15),
+                    image: DecorationImage(
+                      image:
+                          NetworkImage(station_viewModel?.stations[0].stationImages[0] ??"") ,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
                 ),
+
                 SizedBox(
                   width: 8,
                 ),
@@ -56,7 +63,7 @@ class StationDetails_Widget extends StatelessWidget {
                   children: [
                     Text(
                       isavailable ?
-                      'DS Station' : 'Tesla Station ',
+                      'DS Station' :  "Tesla Station ",
                       style: TextStyle(color: Colors.black, fontSize: 13),
                     ),
                     SizedBox(
@@ -78,11 +85,11 @@ class StationDetails_Widget extends StatelessWidget {
                           size: 14,
                         ),
                         Text(
-                          '4.8',
+                          "4.6",
                           style: TextStyle(color: Colors.black, fontSize: 10),
                         ),
                         Text(
-                          '(30 Reviews)',
+                          '(${station_viewModel?.stations[0].reviews.length} Reviews)',
                           style: TextStyle(
                               color: Colors.grey.withOpacity(0.7),
                               fontSize: 10),
@@ -125,7 +132,8 @@ class StationDetails_Widget extends StatelessWidget {
                   height: 20,
                   width: MediaQuery.of(context).size.width * 0.24,
                   child: CustomButton(
-                      text: isavailable ? 'Available' :'In Use',
+                      text: station_viewModel?.spots[0].status ?? " ",
+                      // widget.isavailable ? 'Available' :'In Use',
                       onPressed: () {
                         // Navigator.pushAndRemoveUntil(
                         //   context,
@@ -180,7 +188,7 @@ class StationDetails_Widget extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text(
-                          'Type 3',
+                           station_viewModel?.spots[0].spotName ?? "",
                           style: TextStyle(fontSize: 11),
                         ),
                         Text(
@@ -204,7 +212,7 @@ class StationDetails_Widget extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text(
-                          '\$30',
+                          '\$${station_viewModel?.stations[0].perHourPrice ?? ""}',
                           style: TextStyle(fontSize: 11),
                         ),
                         Text(
@@ -228,7 +236,7 @@ class StationDetails_Widget extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text(
-                          '\$0.1',
+                          '\$${station_viewModel?.stations[0].parkingPrice ?? " "}',
                           style: TextStyle(fontSize: 11),
                         ),
                         Text(
@@ -254,7 +262,7 @@ class StationDetails_Widget extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => ViewStationDetails(isavailable: isavailable,), // Replace with your next screen widget.
+                        builder: (context) => ViewStationDetails(isavailable: isavailable,station_viewModel: station_viewModel,), // Replace with your next screen widget.
                       ),
                     );
                   },

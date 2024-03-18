@@ -9,7 +9,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
-import '../../ViewModel/ChargingStations_ViewModel.dart';
+import '../../ViewModel/ChargingStationsbyChargerType_ViewModel.dart';
 import '../../ViewModel/LogIn_ViewModel.dart';
 import '../../ViewModel/UserViewModel.dart';
 import '../../Widgets/CustomButton.dart';

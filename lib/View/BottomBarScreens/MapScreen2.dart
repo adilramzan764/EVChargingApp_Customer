@@ -10,14 +10,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:location/location.dart';
 
 import '../../Models/ChargingStation_Model.dart';
-import '../../ViewModel/ChargingStations_ViewModel.dart';
+import '../../Models/StationwithChargerType_Model.dart';
+import '../../ViewModel/ChargingStationsbyChargerType_ViewModel.dart';
+import '../../ViewModel/Station_ViewModel.dart';
 import '../../Widgets/CustomWidgets.dart';
 import '../../Widgets/Filter_Widget.dart';
+import '../../Widgets/StationDetails_Widget.dart';
 import '../../const/GooglMapApiKey.dart';
 import '../BottomNavigationBar/MyBottomNavigationBar.dart';
 import 'package:image/image.dart' as IMG;
@@ -26,6 +31,8 @@ class MapPage2 extends StatefulWidget {
   const MapPage2({super.key});
 
   @override
+  static final Station_ViewModel station_viewModel = Get.put(Station_ViewModel());
+
   State<MapPage2> createState() => _MapPageState();
 }
 
@@ -50,25 +57,31 @@ class _MapPageState extends State<MapPage2> {
 
 
 
-  ChargingStationViewModel chargingStationViewModel=SignIn.chargingStationViewModel;
+  static ChargingStationViewModel chargingStationViewModel=SignIn.chargingStationViewModel;
 
   List<Map<String, double>> locations = [];
+  List<String> stationids = [];
+
 
 
   List<Map<String, double>> getStationLocations() {
     // List to store station locations
     List<Map<String, double>> locations = [];
 
-    // Iterate through charging stations and extract coordinates
-    for (ChargingStation station in chargingStationViewModel.chargingStations) {
-      List<String> coordinates = station.location.split(',');
-      double latitude = double.parse(coordinates[0]);
-      double longitude = double.parse(coordinates[1]);
-      locations.add({'latitude': latitude, 'longitude': longitude});
+    if (chargingStationViewModel.StationwithChargerType != null && chargingStationViewModel.StationwithChargerType.isNotEmpty) {
+      // Iterate through charging stations and extract coordinates
+      for (StationwithChargerType_Model station in chargingStationViewModel.StationwithChargerType) {
+        stationids.add(station.stationId);
+        List<String> coordinates = station.location.split(',');
+        double latitude = double.parse(coordinates[0]);
+        double longitude = double.parse(coordinates[1]);
+        locations.add({'latitude': latitude, 'longitude': longitude});
+      }
     }
 
     return locations;
   }
+
   Set<Marker> markers = Set();
 
 // make sure to initialize before map loading
@@ -113,29 +126,41 @@ class _MapPageState extends State<MapPage2> {
   // }
 
 
-
+  // Station_ViewModel station_viewModel=Station_ViewModel();
 
   Future<void> addMarkers() async {
-    for (Map<String, double> location in locations) {
+    for (int i = 0; i < locations.length; i++) {
+      Map<String, double> location = locations[i];
       LatLng latLng = LatLng(location['latitude']!, location['longitude']!);
       markers.add(
         Marker(
+          onTap: () {
+            if (i < stationids.length) {
+              print("Station ID: ${stationids[i]}");
+              MapPage2.station_viewModel.fetchChargingStationData(stationids[i]);
+              setState(() {
+                is_in_use_station_pressed = !is_in_use_station_pressed;
+                if(is_available_station_pressed)
+                  is_available_station_pressed = !is_available_station_pressed;
+              });
+
+
+            }
+          },
           markerId: MarkerId(latLng.toString()),
           position: latLng,
-          icon: await defaultMarker, // Use await here to get the BitmapDescriptor
+          icon: await defaultMarker,
         ),
       );
     }
-    print("currentlocation_marker"+_currentP.toString());
 
-      markers.add(
-        Marker(
-          markerId: MarkerId('currentLocation'),
-          position: _currentP!,
-          icon: await currentlocation_marker, // Use await here to get the BitmapDescriptor
-        ),
-      );
-
+    markers.add(
+      Marker(
+        markerId: MarkerId('currentLocation'),
+        position: _currentP!,
+        icon: await currentlocation_marker,
+      ),
+    );
   }
 
 
@@ -154,7 +179,8 @@ class _MapPageState extends State<MapPage2> {
     );
     locations = getStationLocations(); // Call getStationLocations here
     addMarkers();
-    getDirections();
+    // getDirections();
+    print(stationids.toString());
   }
 
 
@@ -171,9 +197,11 @@ class _MapPageState extends State<MapPage2> {
   //   );
   // }
 
+
+
   @override
   Widget build(BuildContext context) {
-    print("api "+chargingStationViewModel.chargingStations[0].location);
+    print("api "+chargingStationViewModel.StationwithChargerType[0].location);
     print("locations"+locations.toString());
     return Scaffold(
       body: locations == null
@@ -190,7 +218,7 @@ class _MapPageState extends State<MapPage2> {
               target: _pGooglePlex,
               zoom: 13,
                       ),
-                      markers:markers,
+                      markers: markers,
 
                       // {
                       //
@@ -272,6 +300,20 @@ class _MapPageState extends State<MapPage2> {
                           child: CircularButtons('assets/path.svg', () {          _cameraToPosition(_currentP!);
                           }, 45, 45)),
                     ),
+                    if(is_available_station_pressed  )
+                      Padding(
+                        padding:  EdgeInsets.only(
+                            bottom: MediaQuery.of(context).size.height * 0.11),
+                        child:MapPage2.station_viewModel.stations[0]!=null ?
+                        StationDetails_Widget(isavailable: is_available_station_pressed,station_viewModel: MapPage2.station_viewModel,) : CircularProgressIndicator(),
+                      ),
+                    if(is_in_use_station_pressed)
+                      Padding(
+                        padding:  EdgeInsets.only(
+                            bottom: MediaQuery.of(context).size.height * 0.11),
+                        child:MapPage2.station_viewModel.stations[0].stationImages[0]!=null ?
+                        StationDetails_Widget(isavailable: is_available_station_pressed,station_viewModel: MapPage2.station_viewModel ) :  CircularProgressIndicator(),
+                      )
                   ],
                 ),
               ),

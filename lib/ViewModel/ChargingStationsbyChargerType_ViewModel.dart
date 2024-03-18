@@ -1,22 +1,22 @@
 import 'dart:convert';
+import 'package:evchargingapp/Models/StationwithChargerType_Model.dart';
 import 'package:get/get.dart';
-import '../ApiServices/GetAllChargingStation_Api.dart';
-import '../Models/ChargingStation_Model.dart';
+import '../ApiServices/GetAllChargingStationByChargerType_Api.dart';
 
 
 class ChargingStationViewModel extends GetxController {
-  var chargingStations = <ChargingStation>[].obs;
+  var StationwithChargerType = <StationwithChargerType_Model>[].obs;
 
   Future<void> getChargingStationData() async {
     try {
-      final response = await GetAllChargingStation_Api.getChargingStationData();
+      final response = await GetAllChargingStationByChargerType_Api.getChargingStationData();
       print("Stations"+ response.body);
 
       if (response.statusCode == 200) {
         Map<String, dynamic> responseData = json.decode(response.body);
 
         var stationsList = responseData['Stations'] as List<dynamic>;
-        chargingStations.assignAll(stationsList.map((stationData) => ChargingStation.fromJson(stationData)));
+        StationwithChargerType.assignAll(stationsList.map((stationData) => StationwithChargerType_Model.fromJson(stationData)));
       } else {
         throw Exception('Failed to load charging station data');
       }

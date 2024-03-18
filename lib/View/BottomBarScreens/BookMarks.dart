@@ -4,7 +4,7 @@ import 'package:evchargingapp/Widgets/StationDetails_Widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../../ViewModel/ChargingStations_ViewModel.dart';
+import '../../ViewModel/ChargingStationsbyChargerType_ViewModel.dart';
 
 class BookMarks extends StatelessWidget {
    BookMarks({Key? key}) : super(key: key);
@@ -49,9 +49,9 @@ final List<bool> isavailable=[
               context: context,
               removeTop: true,
               child: ListView.builder(
-                itemCount: chargingStationViewModel.chargingStations.length, // Number of items in your list
+                itemCount: chargingStationViewModel.StationwithChargerType.length, // Number of items in your list
                 itemBuilder: (BuildContext context, int index) {
-                  var station = chargingStationViewModel.chargingStations[index];
+                  var station = chargingStationViewModel.StationwithChargerType[index];
                   print("Station "+station.id);
 
                   // Return a widget for each item at the specified index

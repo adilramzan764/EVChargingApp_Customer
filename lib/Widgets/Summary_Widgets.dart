@@ -1,3 +1,4 @@
+import 'package:evchargingapp/Models/ChargingStation_Model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -5,8 +6,8 @@ import 'package:flutter_svg/svg.dart';
 import '../Utils/colors.dart';
 import 'CustomButton.dart';
 
-Widget StationDetails_Summary(BuildContext context){
-  return           Container(
+Widget StationDetails_Summary(BuildContext context,ChargingStation chargingStation) {
+  return Container(
     margin: EdgeInsets.symmetric(horizontal: 15),
     decoration: BoxDecoration(
       color: Colors.white,
@@ -33,8 +34,7 @@ Widget StationDetails_Summary(BuildContext context){
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(15),
                     image: DecorationImage(
-                        image: AssetImage('assets/st.jpg'),
-                        fit: BoxFit.cover)),
+                        image: NetworkImage(chargingStation.stationImages[0]), fit: BoxFit.cover)),
               ),
               SizedBox(
                 width: 8,
@@ -53,8 +53,7 @@ Widget StationDetails_Summary(BuildContext context){
                   Text(
                     'Davidson Avenue, Vicent',
                     style: TextStyle(
-                        color: Colors.grey.withOpacity(0.7),
-                        fontSize: 10),
+                        color: Colors.grey.withOpacity(0.7), fontSize: 10),
                   ),
                   SizedBox(
                     height: 3,
@@ -67,15 +66,13 @@ Widget StationDetails_Summary(BuildContext context){
                         size: 14,
                       ),
                       Text(
-                        '4.8',
-                        style: TextStyle(
-                            color: Colors.black, fontSize: 10),
+                        '0.0',
+                        style: TextStyle(color: Colors.black, fontSize: 10),
                       ),
                       Text(
-                        '(30 Reviews)',
+                        '(${chargingStation.reviews.length} Reviews)',
                         style: TextStyle(
-                            color: Colors.grey.withOpacity(0.7),
-                            fontSize: 10),
+                            color: Colors.grey.withOpacity(0.7), fontSize: 10),
                       ),
                     ],
                   ),
@@ -83,21 +80,20 @@ Widget StationDetails_Summary(BuildContext context){
               ),
               Expanded(
                   child: Align(
-                    alignment: Alignment.centerRight,
-                    child: Container(
-                      height: 45,
-                      width: 45,
-                      decoration: BoxDecoration(
-                          color: ColorValues.primaryblue,
-                          shape: BoxShape.circle),
-                      child: Center(
-                        child: SvgPicture.asset(
-                          'assets/call.svg',
-                          color: Colors.white,
-                        ),
-                      ),
+                alignment: Alignment.centerRight,
+                child: Container(
+                  height: 45,
+                  width: 45,
+                  decoration: BoxDecoration(
+                      color: ColorValues.primaryblue, shape: BoxShape.circle),
+                  child: Center(
+                    child: SvgPicture.asset(
+                      'assets/call.svg',
+                      color: Colors.white,
                     ),
-                  ))
+                  ),
+                ),
+              ))
             ],
           ),
           SizedBox(
@@ -150,28 +146,26 @@ Widget StationDetails_Summary(BuildContext context){
           SizedBox(
             height: 10,
           ),
-
         ],
       ),
     ),
   );
-
 }
 
-Widget ChargerDetails_Summary(BuildContext context){
-  return                 Column(
+Widget ChargerDetails_Summary(BuildContext context,String spotname,String capacity,String arrivaltime,String duration,String selecteddate) {
+  return Column(
     children: [
       Align(
         alignment: Alignment.centerLeft,
         child: Text(
-          'Ac -type 2',
+          spotname,
           style: TextStyle(
-              color: Colors.black,
-              fontSize: 15,
-              fontWeight: FontWeight.bold),
+              color: Colors.black, fontSize: 15, fontWeight: FontWeight.bold),
         ),
       ),
-      SizedBox(height: 10,),
+      SizedBox(
+        height: 10,
+      ),
       Container(
         height: MediaQuery.of(context).size.height * 0.1,
         width: double.infinity,
@@ -186,13 +180,13 @@ Widget ChargerDetails_Summary(BuildContext context){
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    '100kW',
+                    '${capacity} kW',
                     style: TextStyle(fontSize: 11),
                   ),
                   Text(
                     'Units',
-                    style: TextStyle(
-                        fontSize: 11, color: ColorValues.primaryblue),
+                    style:
+                        TextStyle(fontSize: 11, color: ColorValues.primaryblue),
                   ),
                 ],
               ),
@@ -210,13 +204,13 @@ Widget ChargerDetails_Summary(BuildContext context){
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    '15:34 PM',
+                    arrivaltime,
                     style: TextStyle(fontSize: 11),
                   ),
                   Text(
                     'Time',
-                    style: TextStyle(
-                        fontSize: 11, color: ColorValues.primaryblue),
+                    style:
+                        TextStyle(fontSize: 11, color: ColorValues.primaryblue),
                   ),
                 ],
               ),
@@ -234,13 +228,13 @@ Widget ChargerDetails_Summary(BuildContext context){
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    '1 hour',
+                    duration,
                     style: TextStyle(fontSize: 11),
                   ),
                   Text(
                     'Duration',
-                    style: TextStyle(
-                        fontSize: 11, color: ColorValues.primaryblue),
+                    style:
+                        TextStyle(fontSize: 11, color: ColorValues.primaryblue),
                   ),
                 ],
               ),
@@ -258,13 +252,13 @@ Widget ChargerDetails_Summary(BuildContext context){
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    '2 june 23',
+                selecteddate,
                     style: TextStyle(fontSize: 11),
                   ),
                   Text(
                     'Date',
-                    style: TextStyle(
-                        fontSize: 11, color: ColorValues.primaryblue),
+                    style:
+                        TextStyle(fontSize: 11, color: ColorValues.primaryblue),
                   ),
                 ],
               ),
@@ -274,5 +268,4 @@ Widget ChargerDetails_Summary(BuildContext context){
       ),
     ],
   );
-
 }

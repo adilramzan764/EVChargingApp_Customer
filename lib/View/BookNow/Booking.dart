@@ -1,52 +1,24 @@
-import 'package:evchargingapp/Utils/colors.dart';
-import 'package:evchargingapp/View/BookNow/Summary.dart';
+import 'package:evchargingapp/ViewModel/BookingSet_VM.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import '../../Widgets/CustomButton.dart';
-import '../../Widgets/CustomWidgets.dart';
 import '../../Widgets/MonthandYearList_Widget.dart';
 import '../../Widgets/Time_Widget.dart';
+import 'Summary.dart';
 
-class Bookingslot extends StatefulWidget {
-  Bookingslot({Key? key}) : super(key: key);
 
-  @override
-  State<Bookingslot> createState() => _BookingslotState();
-}
+class Bookingslot extends StatelessWidget {
+  final BookingSet_VM controller = Get.put(BookingSet_VM());
+  Bookingslot({Key? key, String? spotname}) : super(key: key) {
+    // Set the spotId value in the controller
+    controller.spotname.value = spotname ?? ''; // Use an empty string or provide a default value if necessary
+  }
+  TextEditingController units= TextEditingController();
 
-class _BookingslotState extends State<Bookingslot> {
-  final List<String> months = [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December'
-  ];
-
-  final List<int> years =
-      List.generate(10, (index) => DateTime.now().year + index);
-
-  String selectedMonth = 'January'; // Initial month selection
-  int selectedYear = DateTime.now().year; // Initial year selection
-  String _selectedTimeSlot = '';
-
-  CalendarFormat _calendarFormat = CalendarFormat.week;
-
-  DateTime _focusedDay = DateTime.now();
-
-  DateTime? _selectedDay = DateTime.now();
-
-  String _selectedDate = DateFormat('EEE, MMMM d').format(DateTime.now());
 
   @override
   Widget build(BuildContext context) {
@@ -114,41 +86,37 @@ class _BookingslotState extends State<Bookingslot> {
                         'Select Date',
                         style: TextStyle(color: Colors.black, fontSize: 14),
                       ),
-                      DropdownWidget(),
+                      DropdownWidget(
+                        onSelectionChanged: controller.onSelectionChanged,
+                      )
                     ],
                   ),
                   SizedBox(
                     height: 20,
                   ),
-                  TableCalendar(
+              Obx(() =>  TableCalendar(
                     availableCalendarFormats: const {
-                      CalendarFormat.week: 'Week', // Only show the week format
+                      CalendarFormat.week: 'Week',
                     },
                     availableGestures: AvailableGestures.horizontalSwipe,
-                    calendarFormat: _calendarFormat,
+                    calendarFormat: controller.calendarFormat.value,
                     firstDay: DateTime(2023),
                     lastDay: DateTime(2033),
-                    focusedDay: _focusedDay,
+                    focusedDay: controller.focusedDay.value,
                     startingDayOfWeek: StartingDayOfWeek.monday,
                     headerVisible: false,
                     daysOfWeekStyle: const DaysOfWeekStyle(
                         weekdayStyle: TextStyle(color: Colors.black),
                         weekendStyle: TextStyle(color: Colors.black)),
                     selectedDayPredicate: (day) {
-                      return isSameDay(_selectedDay, day);
+                      return isSameDay(controller.selectedDay.value, day);
                     },
                     onDaySelected: (selectedDay, focusedDay) {
-                      setState(() {
-                        _selectedDay = selectedDay;
-                        _focusedDay = focusedDay;
-                        _selectedDate =
-                            DateFormat('EEE, MMMM d').format(selectedDay);
-                      });
+                      controller.onDaySelected(selectedDay, focusedDay);
                     },
+
                     onFormatChanged: (format) {
-                      setState(() {
-                        _calendarFormat = format;
-                      });
+                      controller.onFormatChanged(format);
                     },
                     calendarStyle: const CalendarStyle(
                       defaultTextStyle: TextStyle(color: Colors.black),
@@ -161,8 +129,7 @@ class _BookingslotState extends State<Bookingslot> {
                           margin: const EdgeInsets.all(10.0),
                           alignment: Alignment.center,
                           decoration: BoxDecoration(
-                              color: ColorValues.primaryblue,
-                              shape: BoxShape.circle),
+                              color: Colors.blue, shape: BoxShape.circle),
                           child: Text(
                             date.day.toString(),
                             style: const TextStyle(color: Colors.white),
@@ -170,7 +137,7 @@ class _BookingslotState extends State<Bookingslot> {
                         );
                       },
                     ),
-                  ),
+                  ),)
                 ],
               ),
             ),
@@ -184,7 +151,6 @@ class _BookingslotState extends State<Bookingslot> {
                   SizedBox(
                     height: 10,
                   ),
-
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
@@ -195,8 +161,22 @@ class _BookingslotState extends State<Bookingslot> {
                   SizedBox(
                     height: 20,
                   ),
-
-                  MyTimeWidget(),
+                  MyTimeWidget(
+                    onTimeChanged: controller.onArrivalTimeChanged,
+                  ),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      'Select your Departure Time',
+                      style: TextStyle(color: Colors.black, fontSize: 14),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  MyTimeWidget(
+                    onTimeChanged: controller.onDepartureTimeChanged,
+                  ),
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
@@ -222,15 +202,8 @@ class _BookingslotState extends State<Bookingslot> {
                       ],
                     ),
                     child: TextFormField(
-                      onTap: () {
-                        // Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(
-                        //     builder: (context) =>
-                        //         SearchScreen(), // Replace with your next screen widget.
-                        //   ),
-                        // );
-                      },
+                      onTap: () {},
+                      controller: units,
                       decoration: InputDecoration(
                         hintText: '20KW',
                         hintStyle: TextStyle(
@@ -255,7 +228,6 @@ class _BookingslotState extends State<Bookingslot> {
                       ),
                     ),
                   ),
-                  // SizedBox(height: 10,)
                 ],
               ),
             ),
@@ -263,19 +235,24 @@ class _BookingslotState extends State<Bookingslot> {
               height: MediaQuery.of(context).size.height * 0.06,
             ),
             Container(
-                height: 32,
-                width: 140,
-                child: CustomButton(
-                    text: 'Book',
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              Summary(), // Replace with your next screen widget.
-                        ),
-                      );
-                    }))
+              height: 32,
+              width: 140,
+              child: CustomButton(
+                text: 'Book',
+                onPressed: () {
+                  controller.calculateAndStoreDuration();
+                  print("arrival time ${controller.arrivalTime.value}" );
+                  print("departure time ${controller.departureTime.value}" );
+
+                  print('Stored Duration: ${controller.duration.value}');
+
+                  Get.to(() => Summary(spotname: controller.spotname.value, startedat: controller.arrivalTime.value, duration: controller.duration.value, capacity: units.text, selecteddate: controller.selectedDate.value,));
+                },
+              ),
+            ),
+            SizedBox(
+              height: 30,
+            )
           ],
         ),
       ),
